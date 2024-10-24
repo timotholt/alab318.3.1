@@ -1,0 +1,388 @@
+1. Purpose of `express.Router()`
+
+express.Router() is a middleware management system in Express.js that allows you to modularize your routes and organize them in a more structured way.
+
+2. Route matching for dynamic values
+
+In Express.js, you can use route parameters to capture dynamic values in your routes. Route parameters are named placeholders in your route paths that match a specific regEx pattern.
+
+3. Defining route parameters
+
+: and the name of the parameter, will assign that parameter to the specified prooperty
+
+app.get('/users/:id(\\d+)', (req, res) => {
+  const id = req.params.id;
+  res.send(`User ID: ${id}`);
+});
+
+4. `app.use()` with static files
+
+app.use(express.static(foldername))
+
+5. Middleware access to `next` object
+
+In Express.js, middleware functions have access to the next object, which is a function that can be called to pass control to the next middleware function in the stack.
+
+6. Function of `app.METHOD(PATH, HANDLER)`
+
+handles that type of route (method = get/put/post/delete)
+path = url such as '/users'
+handler = function to read it (usually but not always a unnamed function)
+
+7. Setting the view engine
+
+it's the module that renders dynamic templates
+
+8. Starting the server
+
+app.listen(port, function)
+
+node file.js or nodemon
+
+9. Error handling in Express
+
+you can use middleware or try/catch blocks
+
+10. Client redirection
+
+res.redirect(url)
+
+11. Middleware chain end
+
+call next() to pass control to the next function in the middleware
+
+12. Using middleware
+
+used to intercept and process request objects and responses before the clients such as:
+authentication / authorization
+data validation / sanitization
+logging and error handling
+content compression and caching
+routing and URL rewriting
+
+13. Extracting URL parameters
+
+app.get('/users/:id?)
+
+the parameter passed after /users/xxxxx is optional (hence the ?), and if present, places it in:
+
+req.params.id
+
+app.get('/someendpoint/:foobar?)
+
+the parametrer parameter after /someendpoint is optional and if present, is placed in
+req.params.foobar
+
+14. Serving static files
+
+app.use (express.static(folder name))
+
+15. Sending JSON response
+
+users = [ { id: 1, name: "john doe" }, { id: 2, name: "paul thomas" } ];
+res.json( users )
+
+and possibly a status
+res.status(200)
+   .json (users)
+
+16. Setting up a GET route
+
+app.get('/api/endpoint', function(rec, res))
+
+17. Definition of Express.js
+
+lightweight flexible node.js web framework for building web applications/servers quickly
+
+18. Handling a 404 status
+
+app.use((req, res =>
+res.status(404.send('page not found'))))
+
+19. Purpose of `body-parser`
+
+middleware to parse the request.body into JSON
+parses the req.body
+parses the multipart/form-data
+
+20. Stateless REST APIs
+
+A stateless REST APi is a type of API that doesn't store any information about the client's state.
+Each request contains all the information necessary to complete the request, and the server does
+not maintain any context or session information between requests.
+
+Scability / flexibility / reliability / security
+
+21. Data handling in POST requests
+
+JSON data/form data/multipart form data
+
+JSON data is handled by middleware such as a bodyParser in:
+
+app.use(bodyParser.json())
+
+22. HTTP status codes (404)
+
+url incorrect, path not found, resource moved or deleted, etc.  indicates the endpoint isn't valid
+
+23. Capturing URL path data
+
+const express = require('express');
+const app = express();
+
+app.get('/users/:id', (req, res) => {
+  const id = req.params.id;
+  // Use the id to retrieve the user data
+  res.send(`User ID: ${id}`);
+});
+
+24. Purpose of middleware
+
+same as #12
+
+25. Common HTTP headers
+
+key/value pairs that are included in the HTTP request and response messages.
+
+Request Header:
+
+Accept: text/html
+Accept-Language: en-use
+Authorization: Bearer <token>
+Content-Type: application/json
+Cookie: session_id=1234567890
+Host: example.com
+Referer: https://example.com/page1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)
+
+Response headers:
+
+Cache-Control: max-age=3600
+Content-Type: text/html
+ETag: "1234567890"
+Expires: Wed 21 Jan 2026 07:28:00 GMT
+Last Modified: Tue, 20 Jan 2026 07:28:00 GMT
+Location: http://example.com/page2
+Set-Cookie: session_id=1234567890;Expires-Wed, 21 Jan 2026 07:28:00
+WWW-Authenticate: Basic realm="example.com"
+
+26. HTTP POST status codes
+
+200 OK
+201 Created
+202 Accepted
+204 No Content
+400 Bad Request
+401 Unauthorized
+403 Forbidden
+404 Not found
+405 Method Not Allowed
+409 Conflict
+500 Internal Server Error
+503 Service Unavailable
+
+
+27. REST principles
+
+Resource based
+Client-Server Architecture
+Stateless
+Cacheable
+Uniform Interface (GET/POST/PUT/DELETE)
+Layered system
+Code on demand
+
+Benefits: Scability/flexibility/reusability/maintainability/security
+
+28. HTTP methods for resource updates
+
+PUT/PATCH/POST/DELETE
+
+
+29. HTTP methods for reading resources
+
+GET/HEAD/OPTIONS/TRACE
+
+30. Meaning of REST
+
+Representational state transfer
+
+31. Running JavaScript on the backend with Node.js
+
+allows the backend (server) to run javascript without a browser
+Node filename.js
+
+32. Starting a Node.js project (`npm init`)
+a. install node.js
+b. install npm
+c. create a new project directory
+d. cd into project directory
+e. initialize a new node.js project with NPM init
+f. install dependencies such as express etc..
+npm install express
+npm install mongodb
+npm install express
+
+33. Creating a basic Node.js server
+
+const http = requires('http');
+const server = http.createServer((req, res) => {
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end('Hello world!);
+})
+server.listen(3000, () => {
+    console.log('server running on port 3000');
+});
+
+
+34. Key components of HTTP requests/responses in Node.js
+
+req object
+req.method
+req.url
+req.headers
+req.body
+
+res object
+res.statusCode
+req.statusMessage
+req.setHeader()
+res.setHeaders()
+res.write()
+res.end()
+
+Request:
+Method (get/put/post/delete)
+A URL
+A request header/ reponse header
+A body (optional)
+
+Response:
+Status code
+Status message
+headers
+Body
+
+35. Advantages of using Node.js for backend development
+
+scability, event driven, fast development, cross platform, extensive ecosystem, real-time capabilities, easy database integration, server-side rendering, security, easy deployment, flexibility, community support
+
+
+36. Importing modules in Node.js (`require()`)
+
+const object = require(module name)
+
+37. Primary package manager for Node.js (`npm`)
+
+npm - node package manager
+
+38. Node.js built-in modules (e.g., `fs`, `path`)
+
+fs (file syste)
+http
+url
+path
+OPTIONS
+crypto
+stream
+util
+events
+child_process
+cluster
+dns 
+net 
+zlib 
+readline
+repl (read eval print loop)
+console
+etc
+
+========
+
+An HTTP request consists of:
+
+Correct answer:
+
+A request method, the target URL for the request, and any information associated with the request.
+
+==
+To start a new Node.js project, which command should you run?
+
+npm init
+
+==
+
+the primary package manager for Node.js is:
+
+node start
+
+=======================
+require(”http”).createServer((req, res) => res.end(”Hello World”)).listen(3000);
+
+The response status code, the server type, the content type, any caching directives, and the actual content being served in the response.
+
+==============
+
+The Express method to define a view engine is:
+app.set('view engine', 'engine-name')
+
+What is the purpose of the express.Router() method?
+To create modular, mountable route handlers.
+
+Which method would you use to redirect the client to a new page in Express?
+res.redirect()
+
+Which method sets up a route that responds to a GET request in Express?
+app.get()
+
+In Express, middleware functions can access the request and response objects, and which of the following objects?
+
+next()
+
+
+Which method is used to start the server and listen for requests in Express?
+app.listen()
+
+What does app.use('/static', express.static('public')) do in Express?
+It serves static files from the 'public' directory under the '/static' path.
+
+Which middleware function serves static files in Express?
+express.static()
+
+In Express, how would you specify a route parameter?
+/:paramName
+
+What will app.METHOD (PATH, HANDLER) do in Express?
+Route an HTTP request to the specified PATH and METHOD.
+
+If you wanted to match routes like "/users/123," where "123" can be any number, how would you define that route in Express?
+/users/:number
+
+How do you extract data sent as URL parameters in Express?
+req.params
+
+To use middleware in Express, which method do you use?
+app.use()
+
+In Express, to send a JSON response to the client, which method would you use?
+res.json()
+
+Express.js is: A web server framework.
+
+Which method in Express signifies the end of the middleware chain? req.end()
+
+Which Express method would you use to define a view engine? 
+app.engine()
+
+Which HTTP header field is commonly used to specify the type of data being sent by the client to the server? Content-Type
+
+In a RESTful API built with Express, how can you capture data passed in the URL path (e.g., /users/:id)?  req.params
+
+What does REST stand for in the context of web development?
+Representational State Transfer.
+
+In a RESTful architecture, what does it mean when an API is said to be "stateless"? Select all that apply.
+
+The client does not store any data between requests.
+The server does not store any data between requests.
+
