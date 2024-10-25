@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const users = require("../data/users.js")
-const error = require("../utilities/error.js")
+const error = require("../utilities/error.js");
+const posts = require("../data/posts.js");
 
 // BASE PATH FOR THIS ROUTER IS: /api/users
 
@@ -39,6 +40,25 @@ router.get('/:id', (req, res, next) => {
 
   if (user) res.json({ user, links });
   else next();
+})
+
+// NEW ROUTE
+router.get('/:id/posts', (req, res, next) => {
+
+    // Find user, quit if not found
+    const user = users.find(u => u.id == req.params.id)
+    if (!user) {
+        next();
+    }
+
+    // Find posts from user
+    const result = posts.filter(p => Number(p.userId) === Number(req.params.id))
+
+    if (!result) {
+        next();
+    }
+
+    res.json({ result });
 })
 
 

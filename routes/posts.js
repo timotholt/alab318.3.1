@@ -2,19 +2,49 @@ const express = require("express");
 const router = express.Router();
 const posts = require("../data/posts.js")
 const error = require("../utilities/error.js")
-
+const users = require("../data/users.js")
 
 //////////////POSTS//////////////
 router.get('/', (req, res) => {
-  const links = [
-    {
-      href: "posts/:id",
-      rel: ":id",
-      type: "GET",
-    },
-  ];
 
-  res.json({ posts, links });
+    // If there is no query parameter, return all posts
+    if (!req.query.userId) {
+
+        // console.log(`GET /posts with no userId parameter`);
+
+        const links = [
+            {
+                href: "posts/:id",
+                rel: ":id",
+                type: "GET",
+            },
+        ];
+        
+        return res.json({ posts, links })
+    };
+
+    // Otherwise we got a query parameter
+    // console.log(`GET /posts?userId=${req.query.userId}`);
+
+    // Check to make user userId is a number
+    if (!req.query.userId)
+        next();
+
+    // Find the user
+    const foundUser = users.find(u => u.id == req.query.userId)
+    if (!foundUser)
+        next();
+
+    // console.log(`User Found: ${foundUser.id}`)
+
+    // Find posts from user
+    const result = posts.filter(p => Number(p.userId) === Number(foundUser.id))
+
+    if (!result) {
+        next();
+    }
+
+    res.json({ result });
 })
 
 router.get('/:id', (req, res, next) => {
@@ -33,14 +63,22 @@ router.get('/:id', (req, res, next) => {
     },
   ];
 
-  
-
   if (post) res.json({ post, links });
   else next()
 })
 
+// NEW ROUTE
+router.get('/posts', (req, res, next) => {
+
+})
+
 // Create Post
 router.post('/', (req, res, next) => {
+
+    if (!req.body.userId || !req.body.title || !req.body.content) {
+        console.log(`POST /posts MISSING DATA`);
+        next(error(400, "Insufficient Data"));
+    }
   // Within the POST request route, we create a new
   // post with the data given by the client.
   // We should also do some more robust validation here,

@@ -4,6 +4,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const usersRouter = require("./routes/users.js")
 const postsRouter = require("./routes/posts.js")
+const commentsRouter = require("./routes/comments.js")
 const error = require('./utilities/error.js')
 const path = require('path')
 
@@ -55,7 +56,7 @@ app.use('/api', (req, res, next) => {
 //Router Set Up
 app.use("/api/users", usersRouter)
 app.use("/api/posts", postsRouter)
-
+app.use("/api/comments", commentsRouter)
 
 // New User form
 app.get("/users/new", (req, res) => {
